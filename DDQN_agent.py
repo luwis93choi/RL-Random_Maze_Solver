@@ -28,11 +28,7 @@ class DDQN():
         self.NN_hidden = 256
 
         self.epsilon = 1
-<<<<<<< HEAD
         self.epsilon_min = 0.01
-=======
-        self.epsilon_min = 0.2
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
         self.epsilon_decay = 0.999
 
         self.gamma = 0.95
@@ -47,7 +43,6 @@ class DDQN():
         self.NN_model_policy_net = nn.Sequential(
 
             nn.Linear(in_features=self.state_space, out_features=self.NN_hidden),
-<<<<<<< HEAD
             # nn.BatchNorm1d(num_features=self.NN_hidden),
             nn.ReLU(),
 
@@ -57,17 +52,6 @@ class DDQN():
 
             nn.Linear(in_features=self.NN_hidden, out_features=self.NN_hidden),
             # nn.BatchNorm1d(num_features=self.NN_hidden),
-=======
-            nn.BatchNorm1d(num_features=self.NN_hidden),
-            nn.ReLU(),
-
-            nn.Linear(in_features=self.NN_hidden, out_features=self.NN_hidden),
-            nn.BatchNorm1d(num_features=self.NN_hidden),
-            nn.ReLU(),
-
-            nn.Linear(in_features=self.NN_hidden, out_features=self.NN_hidden),
-            nn.BatchNorm1d(num_features=self.NN_hidden),
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
             nn.ReLU(),
 
             nn.Linear(in_features=self.NN_hidden, out_features=self.action_space),
@@ -77,7 +61,6 @@ class DDQN():
         self.NN_model_target_net = nn.Sequential(
 
             nn.Linear(in_features=self.state_space, out_features=self.NN_hidden),
-<<<<<<< HEAD
             # nn.BatchNorm1d(num_features=self.NN_hidden),
             nn.ReLU(),
 
@@ -87,17 +70,6 @@ class DDQN():
 
             nn.Linear(in_features=self.NN_hidden, out_features=self.NN_hidden),
             # nn.BatchNorm1d(num_features=self.NN_hidden),
-=======
-            nn.BatchNorm1d(num_features=self.NN_hidden),
-            nn.ReLU(),
-
-            nn.Linear(in_features=self.NN_hidden, out_features=self.NN_hidden),
-            nn.BatchNorm1d(num_features=self.NN_hidden),
-            nn.ReLU(),
-
-            nn.Linear(in_features=self.NN_hidden, out_features=self.NN_hidden),
-            nn.BatchNorm1d(num_features=self.NN_hidden),
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
             nn.ReLU(),
 
             nn.Linear(in_features=self.NN_hidden, out_features=self.action_space),
@@ -171,19 +143,11 @@ class DDQN():
         del targets_full
         del targets
 
-<<<<<<< HEAD
         # if self.epsilon > self.epsilon_min:
 
         #     self.epsilon *= self.epsilon_decay
 
 def train_dqn(episode, device='cuda:0'):
-=======
-        if self.epsilon > self.epsilon_min:
-
-            self.epsilon *= self.epsilon_decay
-
-def train_dqn(episode):
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
     reward_list = []
 
@@ -191,19 +155,11 @@ def train_dqn(episode):
     unit_len = 10
 
     action_space = 8
-<<<<<<< HEAD
     state_space = 21 * 21 + 4
 
     max_steps = 21 * 21 * 3
 
     agent = DDQN(action_space, state_space, device=device)
-=======
-    state_space = 10
-
-    max_steps = 21 * 21 * 3
-
-    agent = DDQN(action_space, state_space, device='cuda:3')
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
     target_update = 10
 
     success_num = 0
@@ -240,7 +196,6 @@ def train_dqn(episode):
         if success: success_num += 1
         else: fail_num += 1
 
-<<<<<<< HEAD
         if agent.epsilon > agent.epsilon_min:
             agent.epsilon *= agent.epsilon_decay
         
@@ -249,13 +204,6 @@ def train_dqn(episode):
 
         # elif success_num == 10000:
         #     agent.epsilon_min = 0.01
-=======
-        if success_num == 5000:
-            agent.epsilon_min = 0.1
-
-        elif success_num == 10000:
-            agent.epsilon_min = 0.01
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
         print('Episode {}/{} | Score : {:.2f} | Success : {} | Fail : {}'.format(e, episode, score, success_num, fail_num))
 
@@ -275,11 +223,7 @@ def train_dqn(episode):
 
         plt.plot([i for i in range(len(reward_list))], reward_list, 'bo-')
         plt.plot([i for i in range(len(avg_reward_list))], avg_reward_list, 'r-', linewidth=4)
-<<<<<<< HEAD
         plt.title('RL Random Maze Training [DDQN - Hidden ' + str(agent.NN_hidden) +' | 4 FC] \n' + 'Epsilon : ' + str(agent.epsilon) + ' | Min Epsilon : ' + str(agent.epsilon_min) + '\n' + 'Epsilon Decay : '  + str(agent.epsilon_decay) + '\n' + 'Obstacle Occupancy Probabilty : ' + str(env.maze_generator.obstacle_occupancy_prob))
-=======
-        plt.title('RL Random Maze Training [DDQN - Hidden ' + str(agent.NN_hidden) +' | 4 FC] \n' + 'Min Epsilon : ' + str(agent.epsilon_min) + '\n' + 'Epsilon Decay : '  + str(agent.epsilon_decay) + '\n' + 'Obstacle Occupancy Probabilty : ' + str(env.maze_generator.obstacle_occupancy_prob))
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
         plt.xlabel('Episodes')
         plt.ylabel('Reward')
         plt.tight_layout()
@@ -305,8 +249,4 @@ def train_dqn(episode):
 if __name__ == '__main__':
 
     ep = 100000
-<<<<<<< HEAD
     loss = train_dqn(ep, device='cuda:0')
-=======
-    loss = train_dqn(ep)
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0

@@ -34,17 +34,8 @@ class Maze():
 
         self.maze[self.target_pose[0]][self.target_pose[1]] = 2         # Place Target location in the maze
 
-<<<<<<< HEAD
         # Draw the maze
         self.maze_drawer = Maze_drawer(self.maze)
-=======
-        self.visited = copy.deepcopy(self.maze)
-        self.visited[self.curr_agent_pose[0]][self.curr_agent_pose[1]] = -1
-
-        # Draw the maze
-        self.maze_drawer = Maze_drawer(self.maze)
-        self.maze_drawer.update_maze(self.visited, curr_pose=self.curr_agent_pose)
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
         # print(self.maze)
 
@@ -62,7 +53,6 @@ class Maze():
         self.shortest_dy = self.dy
         self.shortest_dx = self.dx
 
-<<<<<<< HEAD
         states = [self.dy, self.dx, self.curr_agent_pose[0], self.curr_agent_pose[1]]
 
         self.visited = np.zeros([self.height, self.width])
@@ -87,25 +77,6 @@ class Maze():
 
         self.maze_drawer.update_maze(self.visited, curr_pose=self.curr_agent_pose)
 
-=======
-        # states = [self.curr_agent_pose[0], self.curr_agent_pose[1], self.target_pose[0], self.target_pose[1]]
-        # states = [self.prev_dy, self.prev_dx, self.dy, self.dx]
-        states = [self.dy, self.dx]
-        # states = []
-
-        self.detection_range = detection_range
-        for i in range(-1 * (self.detection_range), self.detection_range + 1):
-            for j in range(-1 * (self.detection_range), self.detection_range + 1):
-                if (i == 0) and (j == 0): pass
-                elif (0 <= self.curr_agent_pose[0] + i) and (self.curr_agent_pose[0] + i < self.height) and (0 <= self.curr_agent_pose[1] + j) and (self.curr_agent_pose[1] + j < self.width):
-                    states.append(self.visited[self.curr_agent_pose[0] + i][self.curr_agent_pose[1] + j])
-                    
-                else:
-                    states.append(1)
-                    
-        # print(states)
-
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
     def reset(self):
 
         # Init Agent's starting point as the center of maze
@@ -122,12 +93,6 @@ class Maze():
 
         self.maze[self.target_pose[0]][self.target_pose[1]] = 2         # Place Target location in the maze
 
-<<<<<<< HEAD
-=======
-        self.visited = copy.deepcopy(self.maze)
-        self.visited[self.curr_agent_pose[0]][self.curr_agent_pose[1]] = -1
-
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
         # print(self.maze)
 
         self.reward = 0
@@ -141,7 +106,6 @@ class Maze():
         self.prev_dy = self.dy
         self.prev_dx = self.dx
 
-<<<<<<< HEAD
         states = [self.dy, self.dx, self.curr_agent_pose[0], self.curr_agent_pose[1]]
         
         self.visited = np.zeros([self.height, self.width])
@@ -157,21 +121,6 @@ class Maze():
                         self.visited[self.curr_agent_pose[0] + i][self.curr_agent_pose[1] + j] += -1
                 
         states = np.concatenate((states, self.visited.flatten()))
-=======
-        # states = [self.curr_agent_pose[0], self.curr_agent_pose[1], self.target_pose[0], self.target_pose[1]]
-        # states = [self.prev_dy, self.prev_dx, self.dy, self.dx]
-        states = [self.dy, self.dx]
-        # states = []
-
-        for i in range(-1 * (self.detection_range), self.detection_range + 1):
-            for j in range(-1 * (self.detection_range), self.detection_range + 1):
-                if (i == 0) and (j == 0): pass
-                elif (0 <= self.curr_agent_pose[0] + i) and (self.curr_agent_pose[0] + i < self.height) and (0 <= self.curr_agent_pose[1] + j) and (self.curr_agent_pose[1] + j < self.width):
-                    states.append(self.visited[self.curr_agent_pose[0] + i][self.curr_agent_pose[1] + j])
-                    
-                else:
-                    states.append(1)
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
         self.maze_drawer.update_maze(self.visited, curr_pose=self.curr_agent_pose)
         # print(states)
@@ -185,33 +134,21 @@ class Maze():
         if ((self.curr_agent_pose[0] + dheight) < 0) or ((self.curr_agent_pose[0] + dheight) >= self.height):
 
             self.reward += -1000
-<<<<<<< HEAD
             # self.done = 1
-=======
-            self.done = 1
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
             skip = True
 
         elif ((self.curr_agent_pose[1]) + dwidth < 0) or ((self.curr_agent_pose[1] + dwidth) >= self.width):
             
             self.reward += -1000
-<<<<<<< HEAD
             # self.done = 1
-=======
-            self.done = 1
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
             
             skip = True
 
         elif self.maze[self.curr_agent_pose[0] + dheight][self.curr_agent_pose[1] + dwidth] == 1:
             
             self.reward += -1000
-<<<<<<< HEAD
             # self.done = 1
-=======
-            self.done = 1
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
             
             skip = True
 
@@ -247,16 +184,9 @@ class Maze():
 
                 self.reward += (1 + self.visited[self.curr_agent_pose[0]][self.curr_agent_pose[1]] * 0.3)
 
-<<<<<<< HEAD
         self.maze[self.curr_agent_pose[0]][self.curr_agent_pose[1]] = -1
 
         # self.visited[self.curr_agent_pose[0]][self.curr_agent_pose[1]] += -1
-=======
-
-        self.maze[self.curr_agent_pose[0]][self.curr_agent_pose[1]] = -1
-
-        self.visited[self.curr_agent_pose[0]][self.curr_agent_pose[1]] += -1
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
         self.maze_drawer.update_maze(self.visited, curr_pose=self.curr_agent_pose)
 
@@ -310,7 +240,6 @@ class Maze():
                 # self.done = 1
                 self.reward += 1000
 
-<<<<<<< HEAD
         states = [self.dy, self.dx, self.curr_agent_pose[0], self.curr_agent_pose[1]]
 
         for i in range(-1 * (self.detection_range), self.detection_range + 1):
@@ -324,23 +253,5 @@ class Maze():
                         self.visited[self.curr_agent_pose[0] + i][self.curr_agent_pose[1] + j] += -1
 
         states = np.concatenate((states, self.visited.flatten()))
-=======
-        # states = [self.curr_agent_pose[0], self.curr_agent_pose[1], self.target_pose[0], self.target_pose[1]]
-        # states = [self.prev_dy, self.prev_dx, self.dy, self.dx]
-        states = [self.dy, self.dx]
-        # states = []
-
-        for i in range(-1 * (self.detection_range), self.detection_range + 1):
-            for j in range(-1 * (self.detection_range), self.detection_range + 1):
-                if (i == 0) and (j == 0): pass
-                elif (0 <= self.curr_agent_pose[0] + i) and (self.curr_agent_pose[0] + i < self.height) and (0 <= self.curr_agent_pose[1] + j) and (self.curr_agent_pose[1] + j < self.width):
-                    states.append(self.visited[self.curr_agent_pose[0] + i][self.curr_agent_pose[1] + j])
-                    
-                else:
-                    states.append(1)
-                    
-        # print(self.maze)
-        # print(states)
->>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
         return self.reward, states, self.done, success
