@@ -32,7 +32,16 @@ class Maze_generator():
 
         while True:
 
+<<<<<<< HEAD
             self.maze = np.zeros([self.height, self.width])
+=======
+            # self.maze = np.random.randint(low=0, high=2, size=(self.height, self.width))
+           
+            self.maze = []
+            for i in range(self.height):
+                self.maze.append([0] * self.width)
+            self.maze = np.array(self.maze)
+>>>>>>> 87cd37923276b09b4c0273075d02ccb9fca791d0
 
             for i in range(self.height):
                 for j in range(self.width):
