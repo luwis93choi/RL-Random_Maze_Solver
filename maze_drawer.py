@@ -25,27 +25,25 @@ class Maze_drawer():
 
             for j in range(self.maze_width):
 
-                if self.maze_grid[i][j] == 0:
+                if self.maze_grid[i][j] <= 0:
 
                     self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [255, 255, 255]
 
                 elif self.maze_grid[i][j] == 1:
-                   
-                    self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [0, 0, 0]
+                    
+                    self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [255, 0, 0]
 
                 elif self.maze_grid[i][j] == 2:
                     
                     self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [0, 0, 255]
 
-                if (i == curr_pose[0]) and (j == curr_pose[1]):
-                        
-                    self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [255, 0, 0]
+                elif self.maze_grid[i][j] >= 3:
+                   
+                    self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [0, 0, 0]
 
-                else:
-
-                    if self.maze_grid[i][j] <= -1:
-
-                        self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [0, 255, 0]
+                elif self.maze_grid[i][j] == 0.5:
+                    
+                    self.img[self.unit_size * i : self.unit_size * i + self.unit_size, self.unit_size * j : self.unit_size * j + self.unit_size] = [128, 128, 128]
 
         cv.imshow('Random Maze [' + str(self.create_time) + ']', self.img)
         cv.waitKey(1)
