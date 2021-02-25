@@ -244,7 +244,7 @@ class AC_Curiosity_Agent():
         self.curiosity_net.optimizer.step()
         self.actor_critic.optimizer.step()
 
-        return total_reward
+        return total_reward, extrinsic_reward, intrinsic_reward
 
 from maze_env import Maze
 import os
@@ -265,6 +265,11 @@ if __name__ == '__main__':
 
     score_history = []
     avg_score_history = []
+    success_history = []
+
+    total_reward_history = []
+    extrinsic_reward_history = []
+    intrinsic_reward_history = []
 
     epsiodes = 10000000
     max_steps = 23 * 23
@@ -289,7 +294,10 @@ if __name__ == '__main__':
 
             observation_, reward, done, success = env.step(action)
 
-            agent.learn(observation, reward, observation_, policy, action, done)
+            total_reward, extrinsic_reward, intrinsic_reward = agent.learn(observation, reward, observation_, policy, action, done)
+            total_reward_history.append(total_reward)
+            extrinsic_reward_history.append(extrinsic_reward)
+            intrinsic_reward_history.append(intrinsic_reward)
 
             observation = observation_
 
@@ -305,6 +313,7 @@ if __name__ == '__main__':
 
         avg_score = np.mean(score_history[-100:])
         avg_score_history.append(avg_score)
+        success_history.append(success)
 
         print('Epsidoe : ', e, ' | Score : %.2f' % score, ' | Average Score : %.2f' % avg_score, ' | Success : ', success_num, ' | Fail : ', (e-success_num+1))
 
@@ -315,7 +324,7 @@ if __name__ == '__main__':
 
         plt.plot([i for i in range(len(score_history))], score_history, 'bo-')
         plt.plot([i for i in range(len(avg_score_history))], avg_score_history, 'r-', linewidth=4)
-        plt.title('RL Random Maze Training [Actor-Critic + Curiosity]')
+        plt.title('RL Random Maze Training [Actor-Critic + Curiosity]\nSuccess : {} | Failure : {}'.format(success_num, (e-success_num+1)))
         plt.xlabel('Episodes')
         plt.ylabel('Reward')
         plt.tight_layout()
@@ -324,6 +333,21 @@ if __name__ == '__main__':
 
         with open('./' + start_time + '/score_history.txt', 'wb') as reward_list_file:
             pickle.dump(score_history, reward_list_file)
+
+        with open('./' + start_time + '/avg_score_history.txt', 'wb') as avg_reward_list_file:
+            pickle.dump(avg_score_history, avg_reward_list_file)
+
+        with open('./' + start_time + '/success_history.txt', 'wb') as success_list_file:
+            pickle.dump(success_history, success_list_file)
+
+        with open('./' + start_time + '/total_reward_history.txt', 'wb') as total_reward_list_file:
+            pickle.dump(total_reward_history, total_reward_list_file)
+
+        with open('./' + start_time + '/extrinsic_reward_history.txt', 'wb') as extrinsic_reward_list_file:
+            pickle.dump(extrinsic_reward_history, extrinsic_reward_list_file)
+
+        with open('./' + start_time + '/intrinsic_reward_history.txt', 'wb') as intrinsic_reward_list_file:
+            pickle.dump(intrinsic_reward_history, intrinsic_reward_list_file)
 
         if success:
             torch.save({'epoch' : e,
