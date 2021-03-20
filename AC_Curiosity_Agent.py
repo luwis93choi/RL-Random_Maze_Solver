@@ -331,26 +331,29 @@ if __name__ == '__main__':
         plt.savefig('./' + start_time + '/Training_Result.png')
         plt.cla()
 
-        with open('./' + start_time + '/score_history.txt', 'wb') as reward_list_file:
-            pickle.dump(score_history, reward_list_file)
+        f = open('./' + start_time + '/score_history.txt', 'a')
+        f.write(str(score) + '\n')
+        f.close()
 
-        with open('./' + start_time + '/avg_score_history.txt', 'wb') as avg_reward_list_file:
-            pickle.dump(avg_score_history, avg_reward_list_file)
+        f = open('./' + start_time + '/avg_score_history.txt', 'a')
+        f.write(str(avg_score) + '\n')
+        f.close()
 
-        with open('./' + start_time + '/success_history.txt', 'wb') as success_list_file:
-            pickle.dump(success_history, success_list_file)
+        f = open('./' + start_time + '/success_history.txt', 'a')
+        f.write(str(success) + '\n')
+        f.close()
+        
+        f = open('./' + start_time + '/extrinsic_reward_history.txt', 'a')
+        f.write(str(extrinsic_reward_history) + '\n')
+        f.close()
 
-        with open('./' + start_time + '/total_reward_history.txt', 'wb') as total_reward_list_file:
-            pickle.dump(total_reward_history, total_reward_list_file)
-
-        with open('./' + start_time + '/extrinsic_reward_history.txt', 'wb') as extrinsic_reward_list_file:
-            pickle.dump(extrinsic_reward_history, extrinsic_reward_list_file)
-
-        with open('./' + start_time + '/intrinsic_reward_history.txt', 'wb') as intrinsic_reward_list_file:
-            pickle.dump(intrinsic_reward_history, intrinsic_reward_list_file)
+        f = open('./' + start_time + '/intrinsic_reward_history.txt', 'a')
+        f.write(str(intrinsic_reward_history) + '\n')
+        f.close()
 
         if success:
             torch.save({'epoch' : e,
                         'ActorCritic_model_state_dict' : agent.actor_critic.state_dict(),
-                        'optimizer' : agent.actor_critic.optimizer.state_dict(),
-                        'reward' : score_history}, './' + start_time + '/Random Maze Agent.pth')
+                        'Curiosity_Module' : agent.curiosity_net.state_dict(),
+                        'AC_optimizer' : agent.actor_critic.optimizer.state_dict(),
+                        'Curiosity_optimizer' : agent.curiosity_net.optimizer.state_dict()}, './' + start_time + '/Random Maze Agent.pth')
